@@ -1,0 +1,11 @@
+{% extends "routines/base.html" %}
+
+{% block content %}
+  <p> A practice django fitness application </p>
+  <ul>
+    {% for routine in routines %}
+      <li><a href="routine/{{routine.id}}"> {{routine.name}} </a></li>
+    {% endfor %}
+  </ul>
+{% endblock content %}
+
