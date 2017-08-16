@@ -1,0 +1,8 @@
+{% extends "routines/base.html" %}
+{% block content %}
+  <form action="/new_routine/" method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit"/>
+  </form>
+{% endblock content %}

@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+
 #import models, forms
 from .models import Routine,Workout,Excercise
-from .forms import RoutineForm
+from .forms import RoutineForm,WorkoutForm,WorkoutFormSet
 
 
 # Create your views here.
@@ -35,10 +36,15 @@ def new_routine(request):
 	if request.method != 'POST':
 		form = RoutineForm()
 	else:
-		form = TopicForm(request.POST)
+		form = (request.POST)
 		if form.is_valid():
 			form.save()
-			return HttoResponseRedirect(reverse('routines:index'))
+			return HttpResponseRedirect(reverse('routines:index'))
 	context = {'form':form}
 	return render(request,'routines/new_routine.html', context)
 
+def edit_routine(request,routine_id):
+	routine = Routine.objects.get(id=routine_id)
+	form = WorkoutFormSet(instance = routine)
+	context = {'form':form, 'routine':routine}
+	return render(request, 'routines/edit_routine.html', context)

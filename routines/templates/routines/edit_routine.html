@@ -1,0 +1,27 @@
+{% extends "routines/base.html" %}
+{% block content %}
+  <div id="wo_form_set">
+    {% for f in form.forms %}
+      <table>
+        {{ f.as_table}}
+      </table>
+    {% endfor %}
+  </div>
+  <input type="button" value="add form" id="add_form">
+  <div id="empty_form" style="display:none">
+    {% for f in form.forms %}
+      <table>
+        {{ f.as_table}}
+      </table>
+    {% endfor %}
+  </div>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+  $('#add_form').click(function() {
+          var form_idx = $('#id_form-TOTAL_FORMS').val();
+          $('#wo_form_set').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+          $('#id_form-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+	  });
+  </script>
+{% endblock content %}

@@ -1,0 +1,8 @@
+{% extends "routines/base.html" %}
+{% block content %}
+  <form action="{% url 'routines:edit_routine' routine.id %}" method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit"/>
+  </form>
+{% endblock content %}

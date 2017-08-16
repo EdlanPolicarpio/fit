@@ -1,5 +1,5 @@
 from django import forms
-
+from django.forms import inlineformset_factory
 from .models import Routine, Workout, Excercise
 
 class ExcerciseForm(forms.ModelForm):
@@ -17,3 +17,6 @@ class RoutineForm(forms.ModelForm):
 		model = Routine
 		fields = ['name','num_days','desc']
 
+#Formsets
+
+WorkoutFormSet = inlineformset_factory(Routine, Workout, fields=('name','day',))
