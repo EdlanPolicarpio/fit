@@ -19,4 +19,4 @@ class RoutineForm(forms.ModelForm):
 
 #Formsets
 
-WorkoutFormSet = inlineformset_factory(Routine, Workout, fields=('name','day',))
+WorkoutFormSet = inlineformset_factory(Routine, Workout, fields=('name','day',), extra = 1,can_delete=True)

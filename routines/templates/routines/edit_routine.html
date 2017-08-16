@@ -1,27 +1,31 @@
 {% extends "routines/base.html" %}
 {% block content %}
-  <div id="wo_form_set">
-    {% for f in form.forms %}
+  <form action = "{% url 'routines:edit_routine' routine.id %}" method="POST">
+      {% csrf_token %}
+    <div id="wo_form_set">
       <table>
-        {{ f.as_table}}
+        {{form.as_table}}
       </table>
-    {% endfor %}
-  </div>
+    </div>
+  <input type="submit">
+  </form>
   <input type="button" value="add form" id="add_form">
+  
   <div id="empty_form" style="display:none">
-    {% for f in form.forms %}
-      <table>
-        {{ f.as_table}}
-      </table>
-    {% endfor %}
+    <table>
+        {% with form|last as last %}
+          {{last}}
+        {% endwith %}
+    </table>
   </div>
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script>
   $('#add_form').click(function() {
-          var form_idx = $('#id_form-TOTAL_FORMS').val();
+          var form_label = '#id_workout_set-TOTAL_FORMS'
+          var form_idx = $(form_label).val();
           $('#wo_form_set').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
-          $('#id_form-TOTAL_FORMS').val(parseInt(form_idx) + 1);
-	  });
+          $(form_label).val(parseInt(form_idx) + 1);
+  });
   </script>
 {% endblock content %}
