@@ -3,24 +3,24 @@
   <form action = "{% url 'routines:edit_routine' routine.id %}" method="POST">
       {% csrf_token %}
     <div id="wo_form_set">
-      <table>
+      <div id="wo_form"><table>
+        <p class="js-remove"> remove </p>
         {{form.as_table}}
-      </table>
-      <i class='js-remove'>✖</i>
+      </table></div>
     </div>
   <input type="submit">
   </form>
-  <input type="button" value="add form" id="add_form">
+  <input type="button" value="add form" id="add_form" class="add_wo">
   
   <div id="empty_form" style="display:none">
-    <table>
+    <div id="wo_form"><table>
+        <p class="js-remove"> remove </p>
         {% with form|last as last %}
           {{last}}
         {% endwith %}
-    </table>
+    </div></table>
   </div>
   
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script>
   $('#add_form').click(function() {
           var form_label = '#id_workout_set-TOTAL_FORMS'
@@ -29,26 +29,9 @@
           $(form_label).val(parseInt(form_idx) + 1);
   });
   </script>
-<!--- Rubaxa Sortable --!>
-<ul id="foo">
-  <li>foo 1</li>
-  <li>foo 2</li>
-  <li>foo 3</li>
-</ul>
-<ul id="bar">
-  <li>bar 1</li>
-  <li>bar 2</li>
-  <li>bar 3</li>
-</ul>
-<ul id="qux">
-  <li>qux 1</li>
-</ul>
-<ul id="editable">
-  <li>edit 1
-  </li>
-</ul>
 <!-- Javascript --!>
 {% load static %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="{% static "routines/Sortable.min.js"%}" ></script>
 <script src="{% static "routines/edit_routine.js"%}" ></script>
 {% endblock content %}
