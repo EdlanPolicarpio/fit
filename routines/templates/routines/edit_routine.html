@@ -6,6 +6,7 @@
       <table>
         {{form.as_table}}
       </table>
+      <i class='js-remove'>✖</i>
     </div>
   <input type="submit">
   </form>
@@ -28,4 +29,26 @@
           $(form_label).val(parseInt(form_idx) + 1);
   });
   </script>
+<!--- Rubaxa Sortable --!>
+<ul id="foo">
+  <li>foo 1</li>
+  <li>foo 2</li>
+  <li>foo 3</li>
+</ul>
+<ul id="bar">
+  <li>bar 1</li>
+  <li>bar 2</li>
+  <li>bar 3</li>
+</ul>
+<ul id="qux">
+  <li>qux 1</li>
+</ul>
+<ul id="editable">
+  <li>edit 1
+  </li>
+</ul>
+<!-- Javascript --!>
+{% load static %}
+<script src="{% static "routines/Sortable.min.js"%}" ></script>
+<script src="{% static "routines/edit_routine.js"%}" ></script>
 {% endblock content %}
