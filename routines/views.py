@@ -45,8 +45,7 @@ def new_routine(request):
 
 def edit_routine(request,routine_id):
     routine = Routine.objects.get(id=routine_id)
-    form = WorkoutFormSet(instance = routine)
-    emptyForm = WorkoutFormSet(instance = routine)
+    wo_formset = WorkoutFormSet(instance = routine)
     if request.method == 'POST':
         formset = WorkoutFormSet(request.POST, request.FILES, instance=routine)
         for form in formset.forms:
@@ -62,5 +61,5 @@ def edit_routine(request,routine_id):
         
         return HttpResponseRedirect(reverse('routines:edit_routine', kwargs={"routine_id":routine_id}))
     else:
-        context = {'form':form, 'emptyForm':emptyForm, 'routine':routine}
+        context = {'wo_formset':wo_formset, 'routine':routine}
         return render(request, 'routines/edit_routine.html', context)

@@ -1,35 +1,20 @@
 {% extends "routines/base.html" %}
 {% block content %}
   <form action = "{% url 'routines:edit_routine' routine.id %}" method="POST">
-      {% csrf_token %}
+    {% csrf_token %}
     <div id="wo_form_set">
-      <div id="wo_form"><table>
-        <p class="js-remove"> remove </p>
-        {{form.as_table}}
-      </table></div>
+      {{wo_formset.management_form}}
+      {% for wo_form in wo_formset %}
+      <div id="workout"><table>
+          <p class="js-remove"> remove </p>
+          {{wo_form.as_table}}
+       </table></div>
+      {% endfor %}
     </div>
   <input type="submit">
   </form>
   <input type="button" value="add form" id="add_form" class="add_wo">
   
-  <div id="empty_form" style="display:none">
-    <div id="wo_form"><table>
-        <p class="js-remove"> remove </p>
-        {% with form|last as last %}
-          {{last}}
-        {% endwith %}
-    </div></table>
-  </div>
-  
-  <script>
-  $('#add_form').click(function() {
-          var form_label = '#id_workout_set-TOTAL_FORMS'
-          var form_idx = $(form_label).val();
-          $('#wo_form_set').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
-          $(form_label).val(parseInt(form_idx) + 1);
-  });
-  </script>
-<!-- Javascript --!>
 {% load static %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="{% static "routines/Sortable.min.js"%}" ></script>
