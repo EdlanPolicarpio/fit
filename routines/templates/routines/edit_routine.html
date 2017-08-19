@@ -2,19 +2,24 @@
 {% block content %}
   <form action = "{% url 'routines:edit_routine' routine.id %}" method="POST">
     {% csrf_token %}
-    <div id="wo_form_set"><ol id="wo_list" >
+    <div id="wo_form_set">
       {{wo_formset.management_form}}
+      <ol id="wo_list">
+      <!-- workout formset management data --!>
+      
+      <!-- workout formset --!>
       {% for wo_form in wo_formset %}
-      <li><div id="workout"><table>
+      <li class="to_sort"><div><table>
         {{wo_form.id}}
         {{wo_form.routine}}
         <th>{{wo_form.day}}</th>
         <th colspan = "4">{{wo_form.name}}</th>
+        <th style="display:none"><input type="checkbox" name="{{wo_form.DELETE.html_name}}" id="{{wo_form.DELETE.html_name}}" class="wo_DELETE"</th>
         <th class="js-remove">X</p>
-        <th style="display:none"> {{wo_form.DELETE}}</th>
       </table></div></li>
       {% endfor %}
-    </ol></div>
+    </ol>
+    </div>
     <div id="deleted" style="display: none">
     
     </div>
