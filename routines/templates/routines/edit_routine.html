@@ -4,7 +4,7 @@
     {% csrf_token %}
     <div id="wo_form_set">
       {{wo_formset.management_form}}
-      <ol id="wo_list">
+      <ol id="wo_list" style="list-style-type: none">
       <!-- workout formset management data --!>
       
       <!-- workout formset --!>
@@ -15,7 +15,7 @@
         <th>{{wo_form.day}}</th>
         <th colspan = "4">{{wo_form.name}}</th>
         <th style="display:none"><input type="checkbox" name="{{wo_form.DELETE.html_name}}" id="{{wo_form.DELETE.html_name}}" class="wo_DELETE"</th>
-        <th class="js-remove">X</p>
+        <th class="js-remove">X</th>
       </table></div></li>
       {% endfor %}
     </ol>

@@ -24,9 +24,18 @@ var editableList = Sortable.create(wo_list, {
     onFilter: function (evt) {
         var el = editableList.closest(evt.item); // get dragged item
         var form = el.parentNode;
-        $(el).find('.wo_DELETE')[0].checked = true;
+        try{
+            $(el).find('.wo_DELETE')[0].checked = true;
+        }catch(err){
+            console.log("Rest day");
+        }
         $("#deleted").append(el);
-        },
+       var list = $('#wo_list');                                   
+       list.children().each(function(){                                       
+           $(this).find('.wo_day').attr("value", $(this).index()); 
+       
+       });                                                         
+   },
    onUpdate: function(evt){                                        
        var list = $('#wo_list');                                   
        list.children().each(function(){                                       
@@ -65,9 +74,9 @@ function add_form(appendTo, id, template){
 function add_rest(day){
     var workouts = $('#wo_list');
     var html = `<!--rest_day--!>
-        <li class="to_sort"><div><table>
+        <li class="to_sort rest"><div><table>
           <th><input type="number" value="${day}" class="wo_day"></th>
-          <th>Rest Day</th>
+          <th colspan = "4">Rest Day</th>
           <th class="js-remove">X</th>
         </table></div></li>
         
