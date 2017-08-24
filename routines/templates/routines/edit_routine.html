@@ -3,9 +3,9 @@
   <form action = "{% url 'routines:edit_routine' routine.id %}" method="POST">
     {% csrf_token %}
     <div id="wo_form_set">
+      <!-- workout formset management data --!>
       {{wo_formset.management_form}}
       <ol id="wo_list" style="list-style-type: none">
-      <!-- workout formset management data --!>
       
       <!-- workout formset --!>
       {% for wo_form in wo_formset %}
@@ -16,6 +16,14 @@
         <th colspan = "4">{{wo_form.name}}</th>
         <th style="display:none"><input type="checkbox" name="{{wo_form.DELETE.html_name}}" id="{{wo_form.DELETE.html_name}}" class="wo_DELETE"</th>
         <th class="js-remove">X</th>
+        <tr><td>
+          {% with ex_formset=ex_fs_dict|get_item:wo_form.id.value %}
+          <!--Excercise Formset --!>
+            <ul>{% for ex_form in ex_formset %}
+              <li> {{ex_form.as_p}} </li>
+            {% endfor %}</ul>
+          {% endwith %}
+         </td></tr>
       </table></div></li>
       {% endfor %}
     </ol>
@@ -27,6 +35,7 @@
   </form>
   <input type="button" value="add rest" id="add_rest">
   <input type="button" value="add form" id="add_form" class="add_wo">
+  <br>
 {% load static %}
 <script>var routine_id={{routine.id}}</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

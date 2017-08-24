@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 
 #import models, forms
 from .models import Routine,Workout,Excercise
-from .forms import RoutineForm,WorkoutForm,WorkoutFormSet
+from .forms import RoutineForm,WorkoutForm,WorkoutFormSet,ExcerciseFormSet
 
 
 # Create your views here.
@@ -45,10 +45,22 @@ def new_routine(request):
 
 def edit_routine(request,routine_id):
     routine = Routine.objects.get(id=routine_id)
-    wo_formset = WorkoutFormSet(instance = routine)
+    workouts = Workout.objects.filter(routine=routine_id)
     if request.method == 'POST':
-        formset = WorkoutFormSet(request.POST, request.FILES, instance=routine)
-        for form in formset.forms:
+        #Process the excercises
+        for wo in workouts:
+            ex_formset = ExcerciseFormSet(request.POST, request.FILES,
+                    prefix = "excercises-"+str(wo.id), instance = wo)
+            print("Size is "+ str(len(ex_formset)))
+            for form in ex_formset.forms:
+                if form.is_valid():
+                    form.save()
+                    print("WORKS")
+                else:
+                    print(wo.id)
+        #Process the workouts
+        wo_formset = WorkoutFormSet(request.POST, request.FILES, instance=routine)
+        for form in wo_formset.forms:
             #Check that form is valid AND namefield is non-empty
             if form.is_valid() and 'name' in form.cleaned_data.keys():
                 if(form.cleaned_data['DELETE']):
@@ -58,8 +70,13 @@ def edit_routine(request,routine_id):
                     form.save()
             else:
                 print(str(form.errors))
-        
         return HttpResponseRedirect(reverse('routines:edit_routine', kwargs={"routine_id":routine_id}))
     else:
-        context = {'wo_formset':wo_formset, 'routine':routine}
+        excercises = Excercise.objects.filter(workout__routine = routine_id)
+        wo_formset = WorkoutFormSet(instance = routine)
+        ex_fs_dict = {}
+        for ex in excercises:
+            ex_fs_dict[ex.workout.id] = ExcerciseFormSet(prefix = "excercises-"+ str(ex.workout.id), instance = ex.workout)
+        
+        context = {'wo_formset':wo_formset, 'ex_fs_dict': ex_fs_dict, 'routine':routine}
         return render(request, 'routines/edit_routine.html', context)
