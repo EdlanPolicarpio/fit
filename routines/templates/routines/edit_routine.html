@@ -19,6 +19,7 @@
         <tr><td>
           {% with ex_formset=ex_fs_dict|get_item:wo_form.id.value %}
           <!--Excercise Formset --!>
+              {{ex_formset.management_form}}
             <ul>{% for ex_form in ex_formset %}
               <li> {{ex_form.as_p}} </li>
             {% endfor %}</ul>

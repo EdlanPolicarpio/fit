@@ -50,7 +50,7 @@ def edit_routine(request,routine_id):
         #Process the excercises
         for wo in workouts:
             ex_formset = ExcerciseFormSet(request.POST, request.FILES,
-                    prefix = "excercises-"+str(wo.id), instance = wo)
+                    prefix = "excercises-"+str(wo.id),instance = wo)
             print("Size is "+ str(len(ex_formset)))
             for form in ex_formset.forms:
                 if form.is_valid():
