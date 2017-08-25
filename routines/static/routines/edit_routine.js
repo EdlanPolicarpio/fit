@@ -62,6 +62,14 @@ function wo_sort(a,b){
 var wo_location = $('#wo_list');
 $('#add_form').click(function(){new_wo_form($('#wo_list'))});
 
+//Add and name workout
+$('#add_update').click(function(){
+    var new_wo = prompt("New workout name:", '')
+    if( new_wo != null){
+       wo_form($('#wo_list'), new_wo); 
+       alert($('#submit_form').submit())
+    }
+});
 //Add rest day
 $('#add_rest').click(function(){
     var new_index = $('#wo_list').children().length + 1;

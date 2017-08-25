@@ -46,12 +46,15 @@ def new_routine(request):
 def edit_routine(request,routine_id):
     routine = Routine.objects.get(id=routine_id)
     workouts = Workout.objects.filter(routine=routine_id)
+    excercises = Excercise.objects.filter(workout__routine = routine_id)
     if request.method == 'POST':
         #Process the excercises
         for wo in workouts:
+            num_ex = excercises.filter(workout=wo.id).count()
+            if(num_ex < 1):
+                continue
             ex_formset = ExcerciseFormSet(request.POST, request.FILES,
                     prefix = "excercises-"+str(wo.id),instance = wo)
-            print("Size is "+ str(len(ex_formset)))
             for form in ex_formset.forms:
                 if form.is_valid():
                     form.save()
@@ -72,7 +75,6 @@ def edit_routine(request,routine_id):
                 print(str(form.errors))
         return HttpResponseRedirect(reverse('routines:edit_routine', kwargs={"routine_id":routine_id}))
     else:
-        excercises = Excercise.objects.filter(workout__routine = routine_id)
         wo_formset = WorkoutFormSet(instance = routine)
         ex_fs_dict = {}
         for ex in excercises:
