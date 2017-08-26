@@ -1,7 +1,4 @@
 {% extends "routines/base.html" %}
-<head>
-    <script>init_woList($('#wo_list'));</script>
-</head>
 {% block content %}
   <form action = "{% url 'routines:edit_routine' routine.id %}" method="POST">
     {% csrf_token %}
@@ -23,30 +20,39 @@
           {% with ex_formset=ex_fs_dict|get_item:wo_form.id.value %}
           <!--Excercise Formset --!>
               {{ex_formset.management_form}}
-            <ul class="ex_list">{% for ex_form in ex_formset %}
+              <ul class="ex_list" data-wo_id="{{wo_form.id.value}}">
+            {% for ex_form in ex_formset %}
             <li> 
             {{ex_form.name}} {{ex_form.sets}} {{ex_form.reps}} {{ex_form.order}} {{ex_form.id}}
             <input type="checkbox" name="{{ex_form.DELETE.html_name}}" class="ex_DELETE">
             <p class="ex-remove">X</p>
             </li>
             {% endfor %}</ul>
-            <div class="deleted_ex" style="display:none">
-            </div>
+            <div class="deleted_ex" style="display:none"></div>
+            <input type="button" value="add ex" class="add_ex">
           {% endwith %}
          </td></tr>
       </table></div></li>
       {% endfor %}
     </ol>
     </div>
-    <div id="deleted" style="display: none">
-    
+    <div id="deleted" style="display: none"> 
     </div>
   <input type="submit" id="submit_form">
   </form>
   <input type="button" value="add rest" id="add_rest">
-  <input type="button" value="add form" id="add_form" class="add_wo">
+  <input type="button" value="add form" id="add_form" class="add_wo" style="display:none">
   <input type="button" value="add form and update" id="add_update" class="add_wo">
   <br>
+  <div id="to_clone">
+    <li class="blank_ex">
+    {% for ex_form in blank_ex.forms %}
+            {{ex_form.name}} {{ex_form.sets}} {{ex_form.reps}} {{ex_form.order}} {{ex_form.id}}
+            <input type="checkbox" name="{{ex_form.DELETE.html_name}}" class="ex_DELETE">
+            <p class="ex-remove">X</p>
+    {% endfor %}
+    </li>
+  </div>
 {% load static %}
 <script>var routine_id={{routine.id}}</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

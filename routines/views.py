@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 
 #import models, forms
 from .models import Routine,Workout,Excercise
-from .forms import RoutineForm,WorkoutForm,WorkoutFormSet,ExcerciseFormSet
+from .forms import RoutineForm,WorkoutForm,WorkoutFormSet,ExcerciseFormSet, Extra_ExcerciseFormSet
 
 
 # Create your views here.
@@ -45,7 +45,7 @@ def new_routine(request):
 
 def edit_routine(request,routine_id):
     routine = Routine.objects.get(id=routine_id)
-    workouts = Workout.objects.filter(routine=routine_id)
+    workouts = Workout.objects.filter(routine=routine_id).order_by('day')
     excercises = Excercise.objects.filter(workout__routine = routine_id)
     if request.method == 'POST':
         #Process the excercises
@@ -76,7 +76,7 @@ def edit_routine(request,routine_id):
                 print(str(form.errors))
         return HttpResponseRedirect(reverse('routines:edit_routine', kwargs={"routine_id":routine_id}))
     else:
-        blank_ex = ExcerciseFormSet(prefix = "excercises-[WO]")
+        blank_ex = Extra_ExcerciseFormSet(prefix = "excercises-[WO]")
         wo_formset = WorkoutFormSet(instance = routine)
         ex_fs_dict = {}
         for wo in workouts:

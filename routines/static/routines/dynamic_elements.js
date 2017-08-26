@@ -52,3 +52,14 @@ function add_rest(day){
     workouts.append(html);
     
 }
+
+//Create a new excercise
+function add_ex(list){
+    var new_ex = $('#to_clone').find('.blank_ex').clone();
+    var wo_id = list.attr('data-wo_id');
+    var index = list.children().length;
+    alert(index);
+    new_ex.html(new_ex.html().replace("0", index));
+    list.append(new_ex);
+    alert(new_ex.html());
+}

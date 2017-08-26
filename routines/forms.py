@@ -20,6 +20,7 @@ class RoutineForm(forms.ModelForm):
 
 #Formsets
 
+Extra_ExcerciseFormSet = inlineformset_factory(Workout, Excercise, fields=('name','reps','sets','order',),extra = 1, can_delete=True)
 ExcerciseFormSet = inlineformset_factory(Workout, Excercise, fields=('name','reps','sets','order',),extra = 0, can_delete=True)
 WorkoutFormSet = inlineformset_factory(Routine, Workout, fields=('name','day',), 
         extra = 0, can_delete=True, 

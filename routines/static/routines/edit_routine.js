@@ -1,5 +1,6 @@
 //Document Ready
 $(document).ready(function(){
+    init_woList($('#wo_list'));
 });
 //Sort and add 'rest day' placeholders
 function init_woList(list){
@@ -73,8 +74,13 @@ function wo_sort(a,b){
 /* /////////////////////
  * Button Click events
  *//////////////////////
+//Add Excercise
+$('.add_ex').click(function(){
+    var loc = $(event.target).parent().find('.ex_list').prop('tagName');
+    add_ex($(loc));
+});
 //Add workout
-var wo_location = $('#wo_list');
+var wo_locat = $('#wo_list');
 $('#add_form').click(function(){new_wo_form($('#wo_list'))});
 
 //Add and name workout
