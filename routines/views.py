@@ -57,10 +57,11 @@ def edit_routine(request,routine_id):
                     prefix = "excercises-"+str(wo.id),instance = wo)
             for form in ex_formset.forms:
                 if form.is_valid():
-                    form.save()
-                    print("WORKS")
-                else:
-                    print(wo.id)
+                    if(form.cleaned_data['DELETE']):
+                        excercise = form.cleaned_data['id']
+                        Excercise.objects.get(id = excercise.id).delete()
+                    else:
+                        form.save()
         #Process the workouts
         wo_formset = WorkoutFormSet(request.POST, request.FILES, instance=routine)
         for form in wo_formset.forms:
@@ -75,10 +76,11 @@ def edit_routine(request,routine_id):
                 print(str(form.errors))
         return HttpResponseRedirect(reverse('routines:edit_routine', kwargs={"routine_id":routine_id}))
     else:
+        blank_ex = ExcerciseFormSet(prefix = "excercises-[WO]")
         wo_formset = WorkoutFormSet(instance = routine)
         ex_fs_dict = {}
-        for ex in excercises:
-            ex_fs_dict[ex.workout.id] = ExcerciseFormSet(prefix = "excercises-"+ str(ex.workout.id), instance = ex.workout)
+        for wo in workouts:
+            ex_fs_dict[wo.id] = ExcerciseFormSet(prefix = "excercises-"+ str(wo.id), instance = wo)
         
-        context = {'wo_formset':wo_formset, 'ex_fs_dict': ex_fs_dict, 'routine':routine}
+        context = {'wo_formset':wo_formset, 'ex_fs_dict': ex_fs_dict, 'blank_ex':blank_ex, 'routine':routine}
         return render(request, 'routines/edit_routine.html', context)

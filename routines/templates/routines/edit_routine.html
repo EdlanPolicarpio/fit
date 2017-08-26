@@ -1,4 +1,7 @@
 {% extends "routines/base.html" %}
+<head>
+    <script>init_woList($('#wo_list'));</script>
+</head>
 {% block content %}
   <form action = "{% url 'routines:edit_routine' routine.id %}" method="POST">
     {% csrf_token %}
@@ -20,9 +23,15 @@
           {% with ex_formset=ex_fs_dict|get_item:wo_form.id.value %}
           <!--Excercise Formset --!>
               {{ex_formset.management_form}}
-            <ul>{% for ex_form in ex_formset %}
-              <li> {{ex_form.as_p}} </li>
+            <ul class="ex_list">{% for ex_form in ex_formset %}
+            <li> 
+            {{ex_form.name}} {{ex_form.sets}} {{ex_form.reps}} {{ex_form.order}} {{ex_form.id}}
+            <input type="checkbox" name="{{ex_form.DELETE.html_name}}" class="ex_DELETE">
+            <p class="ex-remove">X</p>
+            </li>
             {% endfor %}</ul>
+            <div class="deleted_ex" style="display:none">
+            </div>
           {% endwith %}
          </td></tr>
       </table></div></li>

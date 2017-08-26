@@ -1,6 +1,5 @@
 //Document Ready
 $(document).ready(function(){
-    init_woList($('#wo_list'));
 });
 //Sort and add 'rest day' placeholders
 function init_woList(list){
@@ -23,6 +22,7 @@ function init_woList(list){
 //Create Sortable List for workouts
 var workoutList = Sortable.create(wo_list, {
     sort: 'true',
+    animation: '300',
     scroll: 'true',
     filter: '.js-remove',
     onFilter: function (evt) {
@@ -41,6 +41,21 @@ var workoutList = Sortable.create(wo_list, {
        wo_update($('#wo_list'));                                   
    }                                                               
 });
+//Make each ex_list sortable
+var ex_lists = $('.ex_list');
+ex_lists.each( function(i,e){
+    var sortable = Sortable.create(e, {
+        animation:150,
+        sort: 'true',
+        filter: '.ex-remove',
+        onFilter: function(evt){
+            var el  = sortable.closest(evt.item);
+            var prnt= el.parentNode.parentNode;
+            $(el).find('.ex_DELETE')[0].checked = true;
+            $(prnt).find('.deleted_ex').append(el);
+        }
+    })
+})
 //Update Workouts
 function wo_update(list){
    list.children().each(function(){                                       
@@ -67,7 +82,7 @@ $('#add_update').click(function(){
     var new_wo = prompt("New workout name:", '')
     if( new_wo != null){
        wo_form($('#wo_list'), new_wo); 
-       alert($('#submit_form').submit())
+       $('#submit_form').click();
     }
 });
 //Add rest day
