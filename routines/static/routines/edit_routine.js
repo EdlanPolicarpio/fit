@@ -76,7 +76,7 @@ function wo_sort(a,b){
  *//////////////////////
 //Add Excercise
 $('.add_ex').click(function(){
-    var loc = $(event.target).parent().find('.ex_list').prop('tagName');
+    var loc = $(this).parent().find('.ex_list');
     add_ex($(loc));
 });
 //Add workout

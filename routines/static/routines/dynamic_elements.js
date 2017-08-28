@@ -55,11 +55,16 @@ function add_rest(day){
 
 //Create a new excercise
 function add_ex(list){
-    var new_ex = $('#to_clone').find('.blank_ex').clone();
     var wo_id = list.attr('data-wo_id');
-    var index = list.children().length;
+    var form_meta = "#id_excercises-" + wo_id +"-TOTAL_FORMS";
+    alert(form_meta);
+    var index = $(form_meta).val();
     alert(index);
-    new_ex.html(new_ex.html().replace("0", index));
+    //create the new excercise list item
+    var new_ex = $('#to_clone').find('.blank_ex').clone();
+    new_ex.html(new_ex.html().replace(/0/g, index));
+    new_ex.html(new_ex.html().replace(/\[WO\]/g, wo_id));
     list.append(new_ex);
-    alert(new_ex.html());
+    //change the form meta data
+    $(form_meta).val(parseInt(index)+1);
 }
