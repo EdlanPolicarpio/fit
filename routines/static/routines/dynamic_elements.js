@@ -62,7 +62,7 @@ function add_ex(list){
     alert(index);
     //create the new excercise list item
     var new_ex = $('#to_clone').find('.blank_ex').clone();
-    new_ex.html(new_ex.html().replace(/0/g, index));
+    new_ex.html(new_ex.html().replace(/-0-/g, "-"+index+"-"));
     new_ex.html(new_ex.html().replace(/\[WO\]/g, wo_id));
     list.append(new_ex);
     //change the form meta data

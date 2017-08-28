@@ -11,6 +11,8 @@ function init_woList(list){
     var val = parseInt(curr.find('.wo_day').attr('value'));
     for(var i= 0; i< max_day; i++){
         if(val === i){
+            var ex_list = curr.find('.ex_list');
+            ex_list.append(ex_list.children().sort(ex_sort));
             curr = curr.next();
             val = parseInt(curr.find('.wo_day').attr('value'));
         }else{
@@ -54,9 +56,28 @@ ex_lists.each( function(i,e){
             var prnt= el.parentNode.parentNode;
             $(el).find('.ex_DELETE')[0].checked = true;
             $(prnt).find('.deleted_ex').append(el);
+        },
+        onUpdate: function(evt){
+            ex_update($('.ex_list'));
         }
     })
 })
+/* /////////////////////
+ * List Sorting
+ *//////////////////////
+//Workout Sorting
+function wo_sort(a,b){
+    var a_int = parseInt($(a).find('.wo_day').attr('value')); 
+    var b_int = parseInt($(b).find('.wo_day').attr('value')); 
+    return (b_int < a_int) ? 1:-1;
+}
+//Excercise Sorting
+function ex_sort(a,b){
+    var a_int = parseInt($(a).find('.ex_order').attr('value')); 
+    var b_int = parseInt($(b).find('.ex_order').attr('value')); 
+    return (b_int < a_int) ? 1:-1;
+    
+}
 //Update Workouts
 function wo_update(list){
    list.children().each(function(){                                       
@@ -64,13 +85,13 @@ function wo_update(list){
    });                                                         
     
 }
-//Workout Sorting
-function wo_sort(a,b){
-    var a_int = parseInt($(a).find('.wo_day').attr('value')); 
-    var b_int = parseInt($(b).find('.wo_day').attr('value')); 
-    return (b_int < a_int) ? 1:-1;
+//Update Ex 
+function ex_update(list){
+   list.children().each(function(){                                       
+       $(this).find('.ex_order').attr("value", $(this).index());     
+   });                                                         
+    
 }
-
 /* /////////////////////
  * Button Click events
  *//////////////////////

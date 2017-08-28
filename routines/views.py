@@ -50,13 +50,12 @@ def edit_routine(request,routine_id):
     if request.method == 'POST':
         #Process the excercises
         for wo in workouts:
-            num_ex = excercises.filter(workout=wo.id).count()
-            if(num_ex < 1):
-                continue
             ex_formset = ExcerciseFormSet(request.POST, request.FILES,
                     prefix = "excercises-"+str(wo.id),instance = wo)
             for form in ex_formset.forms:
                 if form.is_valid():
+                    if (not 'DELETE' in form.cleaned_data.keys()):
+                        continue
                     if(form.cleaned_data['DELETE']):
                         excercise = form.cleaned_data['id']
                         Excercise.objects.get(id = excercise.id).delete()
