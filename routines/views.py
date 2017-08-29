@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 #import models, forms
@@ -32,20 +32,26 @@ def routine(request,routine_id):
         context = {'routine':routine, 'workouts':workouts, 'wo_dict':wo_dict, 'ex_dict':ex_dict}
         return render(request,'routines/routine.html', context)
 
+@login_required
 def new_routine(request):
         if request.method != 'POST':
                 form = RoutineForm()
         else:
-                form = (request.POST)
+                form = RoutineForm(request.POST)
                 if form.is_valid():
-                        form.save()
-                        return HttpResponseRedirect(reverse('routines:index'))
+                        routine = form.save(commit=False)
+                        routine.owner = request.user
+                        routine.save
+                        return HttpResponseRedirect(reverse('routines:edit_routine', kwargs={"routine_id":routine.id}))
         context = {'form':form}
         return render(request,'routines/new_routine.html', context)
 
 @login_required
 def edit_routine(request,routine_id):
-    routine = Routine.objects.get(id=routine_id)
+    routine = get_object_or_404(Routine, id=routine_id)
+    #routine = Routine.objects.get_object_or_404(id=routine_id)
+    if routine.owner != request.user:
+        raise Http404
     workouts = Workout.objects.filter(routine=routine_id).order_by('day')
     excercises = Excercise.objects.filter(workout__routine = routine_id)
     if request.method == 'POST':

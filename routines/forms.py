@@ -16,7 +16,7 @@ class WorkoutForm(forms.ModelForm):
 class RoutineForm(forms.ModelForm):
         class Meta:
                 model = Routine
-                fields = ['name','num_days','desc']
+                fields = ['name','desc']
 
 #Formsets
 
