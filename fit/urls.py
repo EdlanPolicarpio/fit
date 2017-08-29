@@ -20,5 +20,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'',(include('routines.urls',namespace = 'routines'))),
+    url(r'^users/', include('users.urls', namespace = 'users')),
 
 ]
