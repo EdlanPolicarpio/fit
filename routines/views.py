@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-
+from django.contrib.auth.decorators import login_required
 #import models, forms
 from .models import Routine,Workout,Excercise
 from .forms import RoutineForm,WorkoutForm,WorkoutFormSet,ExcerciseFormSet, Extra_ExcerciseFormSet
@@ -43,6 +43,7 @@ def new_routine(request):
         context = {'form':form}
         return render(request,'routines/new_routine.html', context)
 
+@login_required
 def edit_routine(request,routine_id):
     routine = Routine.objects.get(id=routine_id)
     workouts = Workout.objects.filter(routine=routine_id).order_by('day')
