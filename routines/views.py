@@ -15,13 +15,15 @@ def index(request):
         return render(request, 'routines/index.html', context)
 
 def routine(request,routine_id):
-        routine = Routine.objects.get(id=routine_id)
-        workouts = Workout.objects.filter(routine__id=routine_id).order_by('day')
+        routine = get_object_or_404(Routine, id=routine_id)
+        workouts = Workout.objects.filter(routine__id=routine_id).order_by('-day')
         excercises = Excercise.objects.filter(workout__routine__id=routine.id)
+        num_days = workouts.first().day
         #create a workout dict (to be used in the template)
         wo_dict = {}
         ex_dict = {}
-        for d in range(0,routine.num_days):
+        print(num_days)
+        for d in range(0,num_days):
                 wo = list(workouts.filter(day=d).values('name'))
                 if(wo != []):
                         wo_dict[d] = wo 
@@ -41,7 +43,7 @@ def new_routine(request):
                 if form.is_valid():
                         routine = form.save(commit=False)
                         routine.owner = request.user
-                        routine.save
+                        routine.save()
                         return HttpResponseRedirect(reverse('routines:edit_routine', kwargs={"routine_id":routine.id}))
         context = {'form':form}
         return render(request,'routines/new_routine.html', context)

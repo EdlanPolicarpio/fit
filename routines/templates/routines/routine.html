@@ -2,40 +2,26 @@
 {% extends "routines/base.html" %}
 
 {% block content %}
-  <p> 
-    <b>Overview for routine: {{routine.name}}</b>
-    <br>
-    <i>{{routine.desc}}</i>
-  </p>
-  {% comment %}
-  {#using rjust to recreate a range to iterate over#}
-  {#stackoverflow.com/questions/1107737/numeric-for-loop-in-django-templates#}
-  {% for i in "x"|rjust:routine.num_days %}
-    {% for workout in workouts %}
-      {% if workout.day == forloop.parentloop.counter0 %}
-    	{{workout.name}} {{workout.day}}
-      {% endif %}
-    {% endfor %}
-  {% endfor %}
-  {% endcomment %}
+  <h1 class="title"> Overview for {{routine.name}} </h1>
+  <h2 class="subtitle">{{routine.desc}}</h2>
   {# using wo_list #}
   {% for day,wo in wo_dict.items %}
-	<p>[{{day}}] 
-	{% for i in wo %}
-	  {{ i.name }}
-	  {% if forloop.revcounter0 > 0 %}
-	    ,
+    <p>[{{day}}] 
+    {% for i in wo %}
+      {{ i.name }}
+      {% if forloop.revcounter0 > 0 %}
+        ,
           {% endif %}
-	{% endfor %}
-	:
-	{% for ex in ex_dict|get_item:day %}
-	  {{ex.name}}[{{ex.sets}} X {{ex.reps}}]
-	  {% if forloop.revcounter0 > 0 %}
-	    ,
+    {% endfor %}
+    :
+    {% for ex in ex_dict|get_item:day %}
+      {{ex.name}}[{{ex.sets}} X {{ex.reps}}]
+      {% if forloop.revcounter0 > 0 %}
+        ,
           {% endif %}
-	{% endfor %}
-	<br>
-	</p>
+    {% endfor %}
+    <br>
+    </p>
   {% endfor %}
 {% endblock content %}
 
