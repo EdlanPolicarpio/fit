@@ -43,12 +43,12 @@ function add_rest(day){
     var workouts = $('#wo_list');
     var html = `<!-- restday --!>
       
-      <li class="to_sort"><div><table class="table">
+      <li class="to_sort"><div><table class="table is-fullwidth">
       <thead style="text-align:center">
         <th class="wo_day_disp">${day}</th>
         <th> Rest </th>
         <th>
-        <span class="js-remove">X</span>
+        <span class="js-remove" style="float:right">X</span>
         </th>
         <span class="wo_day" value="${day}"></span>
       </thead>
@@ -70,6 +70,8 @@ function add_ex(list){
     var new_ex = $('#to_clone').find('.blank_ex').clone();
     new_ex.html(new_ex.html().replace(/-0-/g, "-"+index+"-"));
     new_ex.html(new_ex.html().replace(/\[WO\]/g, wo_id));
+    new_ex.html(new_ex.html().replace(/\[INDEX\]/g, list.children().length));
+    
     list.append(new_ex);
     //change the form meta data
     $(form_meta).val(parseInt(index)+1);

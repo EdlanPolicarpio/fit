@@ -99,7 +99,7 @@ function ex_update(list){
  *//////////////////////
 //Add Excercise
 $('.add_ex').click(function(){
-    var loc = $(this).parent().find('.ex_list');
+    var loc = $(this).parent().parent().find('.ex_list');
     add_ex($(loc));
 });
 //Add workout

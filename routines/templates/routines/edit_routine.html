@@ -1,5 +1,7 @@
 {% extends "routines/base.html" %}
 {% block content %}
+  <div class="columns">
+  <div class="column">
   <form action = "{% url 'routines:edit_routine' routine.id %}" method="POST">
     {% csrf_token %}
     <div id="wo_form_set">
@@ -9,36 +11,39 @@
       
       <!-- workout formset --!>
       {% for wo_form in wo_formset %}
-      <li class="to_sort"><div><table class="table">
+      <li class="to_sort"><div><table class="table is-fullwidth" >
       <thead style="text-align:center">
         <th class="wo_day_disp"></th>
         <th>{{wo_form.name}}</th>
-        <th>
-        <span class="js-remove">X</span>
-        </th>
+        <th><span class="js-remove" style="float:right">X</span></th>
       </thead>
       <!-- wo_form data: id, routine_fk, day, DELETE --!>
       {{wo_form.id}}
       {{wo_form.routine}}
       <span style="display:none">{{wo_form.day}}</div>
       <span style="display:none"><input type="checkbox" name="{{wo_form.DELETE.html_name}}" id="{{wo_form.DELETE.html_name}}" class="wo_DELETE"</div>
-      <tr><td></td><td>
+      <tr><td colspan="2">
           {% with ex_formset=ex_fs_dict|get_item:wo_form.id.value %}
           <!--Excercise Formset --!>
               {{ex_formset.management_form}}
             <ul class="ex_list" data-wo_id="{{wo_form.id.value}}">
             {% for ex_form in ex_formset %}
             <li> 
-            {{ex_form.name}} {{ex_form.sets}} {{ex_form.reps}} {{ex_form.order}} {{ex_form.id}}
-            <input type="checkbox" name="{{ex_form.DELETE.html_name}}" class="ex_DELETE">
+            :: <!--handle --!>
+            {{ex_form.name}} 
+            sets: {{ex_form.sets}} 
+            reps: {{ex_form.reps}} 
+            {{ex_form.order}} {{ex_form.id}}
+            <input type="checkbox" name="{{ex_form.DELETE.html_name}}" class="ex_DELETE" style="display:none">
             <span class="ex-remove">X</span>
             </li>
             {% endfor %}
             </ul>
             <div class="deleted_ex" style="display:none"></div>
-            <input type="button" value="add ex" class="add_ex"
-                                                id="add_ex_{{wo_form.id.value}}">
-          {% endwith %}
+            <td>
+            <input type="button" class="add_ex button is-primary is-outlined is-small" value="add ex" id="add_ex_{{wo_form.id.value}}" style="float:right">
+            </td> 
+         {% endwith %}
          </td></tr>
       </table></div></li>
       {% endfor %}
@@ -51,12 +56,19 @@
   <input type="button" value="add rest" id="add_rest">
   <input type="button" value="add form" id="add_form" class="add_wo" style="display:none">
   <input type="button" value="add form and update" id="add_update" class="add_wo">
+  </div>
+  <div class="column"></div>
+  </div>
   <br>
   <div id="to_clone" style="display: none">
     <li class="blank_ex">
     {% for ex_form in blank_ex.forms %}
-            {{ex_form.name}} {{ex_form.sets}} {{ex_form.reps}} {{ex_form.order}} {{ex_form.id}}
-            <input type="checkbox" name="{{ex_form.DELETE.html_name}}" class="ex_DELETE">
+            :: {{ex_form.name}} 
+            sets: {{ex_form.sets}} 
+            reps: {{ex_form.reps}} 
+            {{ex_form.id}}
+            <input type="number" name="{{ex_form.order.html_name}}" class="ex_order" value="[INDEX]" min="0" style="display:none">
+            <input type="checkbox" name="{{ex_form.DELETE.html_name}}" class="ex_DELETE" style="display:none">
             <span class="ex-remove">X</span>
     {% endfor %}
     </li>
