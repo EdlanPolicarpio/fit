@@ -22,7 +22,7 @@ function new_wo_form(form_location){
 function wo_form(form_location, form_name){
     var form_meta = '#id_workout_set';
     var index = $(form_meta + '-TOTAL_FORMS').val();
-    var new_index = form_location.children().length + 1;
+    var new_index = form_location.children().length;
     var wo_temp = `<!--new_wo_form--!>
         <li class="to_sort"><div><table>
             <input type="hidden" name="workout_set-${index}-id" id="id" />
@@ -41,12 +41,18 @@ function wo_form(form_location, form_name){
 //Create 'Rest day' element
 function add_rest(day){
     var workouts = $('#wo_list');
-    var html = `<!--rest_day--!>
-        <li class="to_sort rest"><div><table>
-          <th><input type="number" value="${day}" class="wo_day"></th>
-          <th colspan = "4">Rest Day</th>
-          <th class="js-remove">X</th>
-        </table></div></li>
+    var html = `<!-- restday --!>
+      
+      <li class="to_sort"><div><table class="table">
+      <thead style="text-align:center">
+        <th class="wo_day_disp">${day}</th>
+        <th> Rest </th>
+        <th>
+        <span class="js-remove">X</span>
+        </th>
+        <span class="wo_day" value="${day}"></span>
+      </thead>
+      </table></div></li> 
         
         `
     workouts.append(html);

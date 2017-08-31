@@ -21,6 +21,7 @@ function init_woList(list){
     }
     sorted_wo =  list.children().sort(wo_sort); 
     sorted_wo.appendTo(list);
+    wo_update($('#wo_list'));
 }
 //Create Sortable List for workouts
 var workoutList = Sortable.create(wo_list, {
@@ -81,7 +82,8 @@ function ex_sort(a,b){
 //Update Workouts
 function wo_update(list){
    list.children().each(function(){                                       
-       $(this).find('.wo_day').attr("value", $(this).index());     
+       $(this).find('.wo_day').attr("value", $(this).index());
+       $(this).find('.wo_day_disp').html($(this).index());
    });                                                         
     
 }

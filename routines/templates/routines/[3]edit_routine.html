@@ -9,20 +9,14 @@
       
       <!-- workout formset --!>
       {% for wo_form in wo_formset %}
-      <li class="to_sort"><div><table class="table">
-      <thead style="text-align:center">
-        <th class="wo_day_disp"></th>
+      <li class="to_sort"><div><table>
+        {{wo_form.id}}
+        {{wo_form.routine}}
+        <th>{{wo_form.day}}</th>
         <th>{{wo_form.name}}</th>
-        <th>
-        <span class="js-remove">X</span>
-        </th>
-      </thead>
-      <!-- wo_form data: id, routine_fk, day, DELETE --!>
-      {{wo_form.id}}
-      {{wo_form.routine}}
-      <span style="display:none">{{wo_form.day}}</div>
-      <span style="display:none"><input type="checkbox" name="{{wo_form.DELETE.html_name}}" id="{{wo_form.DELETE.html_name}}" class="wo_DELETE"</div>
-      <tr><td></td><td>
+        <th style="display:none"><input type="checkbox" name="{{wo_form.DELETE.html_name}}" id="{{wo_form.DELETE.html_name}}" class="wo_DELETE"</th>
+        <th class="js-remove">X</th>
+        <tr><td>
           {% with ex_formset=ex_fs_dict|get_item:wo_form.id.value %}
           <!--Excercise Formset --!>
               {{ex_formset.management_form}}
@@ -60,7 +54,6 @@
             <span class="ex-remove">X</span>
     {% endfor %}
     </li>
-
   </div>
 {% load static %}
 <script>var routine_id={{routine.id}}</script>
